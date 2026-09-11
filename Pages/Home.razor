@@ -1,0 +1,116 @@
+@page "/"
+
+<PageTitle>franciscoalberto.dev</PageTitle>
+
+<div class="editor-window">
+
+    <div class="titlebar">
+        <button class="menu-btn" @onclick="ToggleMobileSidebar" aria-label="Abrir explorador de archivos">☰</button>
+        <div class="titlebar-dots"><span></span><span></span><span></span></div>
+        <span class="titlebar-path">francisco@portfolio: ~/franciscoalberto.dev</span>
+    </div>
+
+    <div class="editor-body">
+
+        <div class="mobile-backdrop @(BarraLateralMovilAbierta ? "show" : "")" @onclick="CloseMobileSidebar"></div>
+
+        <aside class="sidebar @(BarraLateralMovilAbierta ? "mobile-open" : "")">
+            <div class="sidebar-header">explorador</div>
+
+            @foreach (var folder in Folders)
+            {
+                <div class="folder">
+                    <div class="folder-name" @onclick="() => ToggleFolder(folder)">
+                        <span class="chevron">@(IsFolderOpen(folder) ? "▾" : "▸")</span> @folder
+                    </div>
+                    @if (IsFolderOpen(folder))
+                    {
+                        <div class="folder-files">
+                            @foreach (var file in Files.Where(f => f.Folder == folder))
+                            {
+                                <div class="file-entry @(ActiveFile == file.Id ? "active" : "")"
+                                     @onclick="() => OpenFile(file.Id)">
+                                    <span class="file-icon">@file.Icon</span> @file.Name
+                                </div>
+                            }
+                        </div>
+                    }
+                </div>
+            }
+
+            <div class="sidebar-footer">
+                <a href="https://github.com/FranciscoAlberto06" target="_blank" rel="noopener" title="GitHub">GH</a>
+                <a href="https://www.linkedin.com/in/" target="_blank" rel="noopener" title="LinkedIn">in</a>
+                <a href="mailto:francisfdez591@gmail.com" title="Email">@@</a>
+            </div>
+        </aside>
+
+        <div class="main-pane">
+
+            <div class="tab-strip">
+                @foreach (var tabId in OpenTabs)
+                {
+                    var file = Files.First(f => f.Id == tabId);
+                    <div class="tab @(ActiveFile == tabId ? "active" : "")" @onclick="() => OpenFile(tabId)">
+                        <span class="file-icon">@file.Icon</span> @file.Name
+                        <span class="tab-close" @onclick="() => CloseTab(tabId)" @onclick:stopPropagation="true">✕</span>
+                    </div>
+                }
+            </div>
+
+            <div class="code-pane">
+                @switch (ActiveFile)
+                {
+                    case "perfil":
+                        <text>@RenderPerfil()</text>
+                        break;
+                    case "frivgame":
+                        <text>@RenderFrivgame()</text>
+                        break;
+                    case "skills":
+                        <text>@RenderSkills()</text>
+                        break;
+                    case "formacion":
+                        <text>@RenderFormacion()</text>
+                        break;
+                    case "contacto":
+                        <text>@RenderContacto()</text>
+                        break;
+                }
+            </div>
+
+            <div class="terminal @(TerminalOpen ? "open" : "closed")">
+                <div class="terminal-bar" @onclick="ToggleTerminal">
+                    <span>▷ terminal</span>
+                    <span class="terminal-hint">@(TerminalOpen ? "click para minimizar" : "click para abrir · escribe 'help'")</span>
+                </div>
+                @if (TerminalOpen)
+                {
+                    <div class="terminal-body">
+                        <div class="terminal-log" @ref="terminalLogRef">
+                            @foreach (var line in TerminalLog)
+                            {
+                                <div class="term-line">@((MarkupString)line)</div>
+                            }
+                        </div>
+                        <div class="terminal-input-row">
+                            <span class="prompt">francisco@dev:~$</span>
+                            <input class="terminal-input" @bind="TerminalInput" @bind:event="oninput"
+                                   @onkeydown="HandleTerminalKey" autocomplete="off" spellcheck="false" />
+                        </div>
+                    </div>
+                }
+            </div>
+
+            <div class="status-bar">
+                <span>main</span>
+                <span class="hide-mobile">·</span>
+                <span class="hide-mobile">C# / .NET 8</span>
+                <span class="hide-mobile">·</span>
+                <span>UTF-8</span>
+                <span class="status-right">Ln @StatusLine, Col 1</span>
+            </div>
+
+        </div>
+    </div>
+</div>
