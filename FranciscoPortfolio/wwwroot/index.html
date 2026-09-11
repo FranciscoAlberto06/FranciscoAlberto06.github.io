@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>franciscoalberto.dev — sobre-mi.cs</title>
+    <meta name="description" content="Portafolio de Francisco Alberto Fernández Alcántara, desarrollador .NET / C#" />
+    <base href="/" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/app.css" />
+    <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+A8AAQUBAScY42YAAAAASUVORK5CYII=" />
+</head>
+
+<body>
+    <div id="app"></div>
+
+    <div id="boot-overlay" class="boot-screen">
+        <img src="img/avatar.jpg" alt="Francisco Alberto Fernández Alcántara" class="boot-avatar" />
+        <div class="boot-name">Francisco Alberto Fernández Alcántara</div>
+        <div class="boot-role">Desarrollador .NET / C#</div>
+        <div class="boot-progress"><span class="boot-progress-fill"></span></div>
+        <div class="boot-status">cargando el entorno<span class="dots">...</span></div>
+    </div>
+
+    <div id="blazor-error-ui">
+        Ha ocurrido un error inesperado.
+        <a href="" class="reload">Recargar</a>
+        <a class="dismiss">🗙</a>
+    </div>
+    <script src="_framework/blazor.webassembly.js" autostart="false"></script>
+    <script>
+      // ---- Duración mínima de la intro ----
+      // Cambia este número (en milisegundos) para que la intro dure más o menos.
+      // 2200 = 2.2 segundos mínimo, aunque la app cargue antes.
+      const MIN_INTRO_MS = 2200;
+
+      const startTime = Date.now();
+
+      Blazor.start().then(function () {
+        const elapsed = Date.now() - startTime;
+        const remaining = Math.max(0, MIN_INTRO_MS - elapsed);
+
+        setTimeout(function () {
+          const overlay = document.getElementById('boot-overlay');
+          if (overlay) {
+            overlay.classList.add('boot-overlay-hide');
+            setTimeout(function () { overlay.remove(); }, 400); // tras el fundido
+          }
+        }, remaining);
+      });
+    </script>
+</body>
+
+</html>
