@@ -17,7 +17,7 @@
         <aside class="sidebar @(BarraLateralMovilAbierta ? "mobile-open" : "")">
             <div class="sidebar-header">explorador</div>
 
-            @foreach (var folder in Folders)
+            @foreach (string folder in Folders)
             {
                 <div class="folder">
                     <div class="folder-name" @onclick="() => ToggleFolder(folder)">
@@ -26,7 +26,7 @@
                     @if (IsFolderOpen(folder))
                     {
                         <div class="folder-files">
-                            @foreach (var file in Files.Where(f => f.Folder == folder))
+                            @foreach (FileEntry file in Files.Where(f => f.Folder == folder))
                             {
                                 <div class="file-entry @(ActiveFile == file.Id ? "active" : "")"
                                      @onclick="() => OpenFile(file.Id)">
@@ -41,14 +41,16 @@
             <div class="sidebar-footer">
                 <a href="https://github.com/FranciscoAlberto06" target="_blank" rel="noopener" title="GitHub">GH</a>
                 <a href="https://www.linkedin.com/in/francisco-alberto-fernandez-alcantara" target="_blank" rel="noopener" title="LinkedIn">in</a>
-                <a href="mailto:francisfdez591@gmail.com" title="Email">@@</a>
+                <button type="button" class="footer-btn" title="Copiar email" @onclick="CopyEmail">
+                    @(emailCopied ? "✓" : "@")
+                </button>
             </div>
         </aside>
 
         <div class="main-pane">
 
             <div class="tab-strip">
-                @foreach (var tabId in OpenTabs)
+                @foreach (string tabId in OpenTabs)
                 {
                     var file = Files.First(f => f.Id == tabId);
                     <div class="tab @(ActiveFile == tabId ? "active" : "")" @onclick="() => OpenFile(tabId)">
@@ -87,8 +89,8 @@
                 @if (TerminalOpen)
                 {
                     <div class="terminal-body">
-                        <div class="terminal-log" @ref="terminalLogRef">
-                            @foreach (var line in TerminalLog)
+                        <div class="terminal-log" >
+                            @foreach (string line in TerminalLog)
                             {
                                 <div class="term-line">@((MarkupString)line)</div>
                             }

@@ -219,6 +219,22 @@ html, body {
 }
 .sidebar-footer a:hover { color: var(--accent); border-color: var(--accent-dim); }
 
+.footer-btn {
+    font-family: inherit;
+    background: transparent;
+    color: var(--text-dim);
+    font-size: 0.8rem;
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    padding: 0.15rem 0.5rem;
+    cursor: pointer;
+}
+
+    .footer-btn:hover {
+        color: var(--accent);
+        border-color: var(--accent-dim);
+    }
+
 /* ---------- Panel principal ---------- */
 .main-pane {
   flex: 1;

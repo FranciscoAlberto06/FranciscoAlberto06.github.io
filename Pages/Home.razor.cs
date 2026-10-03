@@ -1,12 +1,16 @@
 using System.Text;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
+using Microsoft.JSInterop;
 using FranciscoPortfolio.Models;
 
 namespace FranciscoPortfolio.Pages;
 
 public partial class Home : ComponentBase
 {
+    // Inyección de IJSRuntime para usar JS interop que permite copiar al portapapeles y abrir enlaces en nuevas pestañas
+    [Inject] private IJSRuntime JS { get; set; } = default!;
+    private bool emailCopied;
 
     #region EXPLORADOR DE ARCHIVOS
     private readonly List<FileEntry> Files = new()
@@ -103,7 +107,7 @@ public partial class Home : ComponentBase
 
     private MarkupString RenderPerfil()
     {
-        var html = $@"
+        string html = $@"
 <pre><code>
 <span class=""com"">// sobre-mi.cs</span>
 
@@ -129,30 +133,42 @@ public partial class Home : ComponentBase
 
     private MarkupString RenderFrivgame()
     {
-        var html = $@"
+        string html = $@"
 <pre><code>
 <span class=""com"">// frivgame.cs — Proyecto Final de Grado</span>
 <span class=""com"">// Repositorio: github.com/FranciscoAlberto06</span>
+<span class=""com"">//</span>
+<span class=""com"">// Una plataforma de minijuegos pensada para jugarse en cualquier sitio:</span>
+<span class=""com"">// mismo usuario, mismo progreso, en Android o en escritorio, con o sin conexión.</span>
 
 <span class=""kw"">public class</span> <span class=""typ"">FrivGame</span> : <span class=""typ"">AplicacionMultiplataforma</span>
 {{
-    <span class=""com"">// App de minijuegos para Android y Escritorio,</span>
-    <span class=""com"">// con funcionamiento online y offline.</span>
-
+    <span class=""com"">// ── Autenticación y progreso ─────────────────────────</span>
+    <span class=""com"">// Registro y login de usuarios. Cada cuenta guarda experiencia,</span>
+    <span class=""com"">// niveles desbloqueados y logros, sincronizados entre dispositivos.</span>
     <span class=""kw"">void</span> <span class=""fn"">Autenticacion</span>()
-        <span class=""com"">// Registro y login de usuarios: perfiles, experiencia,</span>
-        <span class=""com"">// niveles y sistema de logros.</span>
 
+    <span class=""com"">// ── Ranking en tiempo real ───────────────────────────</span>
+    <span class=""com"">// Las puntuaciones se emiten por SignalR: cuando alguien bate</span>
+    <span class=""com"">// un récord, el resto de jugadores conectados lo ve al instante,</span>
+    <span class=""com"">// sin recargar ni hacer polling.</span>
     <span class=""kw"">void</span> <span class=""fn"">RankingEnTiempoReal</span>()
-        <span class=""com"">// Actualización instantánea de puntuaciones vía SignalR.</span>
 
+    <span class=""com"">// ── API y persistencia ───────────────────────────────</span>
+    <span class=""com"">// Backend en ASP.NET Core + C#, desplegado en Railway.</span>
+    <span class=""com"">// Datos en MySQL sobre Aiven, expuestos como API REST.</span>
     <span class=""kw"">void</span> <span class=""fn"">Api</span>()
-        <span class=""com"">// ASP.NET Core + C#, desplegada en Railway,</span>
-        <span class=""com"">// integrada con MySQL en Aiven.</span>
 
+    <span class=""com"">// ── Cliente multiplataforma ──────────────────────────</span>
+    <span class=""com"">// Una sola base de código en .NET MAUI corre en Android y</span>
+    <span class=""com"">// Escritorio. Los minijuegos funcionan offline y sincronizan</span>
+    <span class=""com"">// el progreso en cuanto vuelve la conexión.</span>
     <span class=""kw"">void</span> <span class=""fn"">ClienteMultiplataforma</span>()
-        <span class=""com"">// .NET MAUI + C#, consumiendo la API REST</span>
-        <span class=""com"">// en formato JSON.</span>
+
+    <span class=""com"">// ── Lo que aprendí ────────────────────────────────────</span>
+    <span class=""com"">// Mi primer proyecto diseñando la arquitectura completa desde</span>
+    <span class=""com"">// cero: cliente, API y base de datos funcionando juntos en</span>
+    <span class=""com"">// producción real, no solo en local.</span>
 }}
 </code></pre>";
         return new MarkupString(html);
@@ -160,7 +176,7 @@ public partial class Home : ComponentBase
 
     private MarkupString RenderSkills()
     {
-        var html = $@"
+        string html = $@"
 <pre><code>
 {{
   <span class=""fn"">""lenguajes""</span>: [<span class=""str"">""C#""</span>, <span class=""str"">""Python""</span>, <span class=""str"">""Java""</span>],
@@ -173,7 +189,7 @@ public partial class Home : ComponentBase
     <span class=""str"">""API REST""</span>,
     <span class=""str"">""SignalR""</span>
   ],
-  <span class=""fn"">""herramientas""</span>: [<span class=""str"">""Visual Studio""</span>, <span class=""str"">""Git / GitHub""</span>, <span class=""str"">""MySQL Workbench""</span>]
+  <span class=""fn"">""herramientas""</span>: [<span class=""str"">""Visual Studio""</span>, <span class=""str"">""Git / GitHub"",<span class=""str"">""Azure""</span>, </span>, <span class=""str"">""MySQL Workbench""</span>, <span class=""str"">""SQL Server""</span>]
 }}
 </code></pre>";
         return new MarkupString(html);
@@ -181,7 +197,7 @@ public partial class Home : ComponentBase
 
     private MarkupString RenderFormacion()
     {
-        var html = $@"
+        string html = $@"
 <pre><code>
 <span class=""com"">## formacion.md</span>
 
@@ -196,14 +212,14 @@ Técnico en Sistemas Microinformáticos y Redes (SMR)
 
     private MarkupString RenderContacto()
     {
-        var html = $@"
+        string html = $@"
 <pre><code>
 <span class=""com"">## contacto.md</span>
 
 - **Email:** francisfdez591@gmail.com
 - **Teléfono:** 635 33 73 02
 - **GitHub:** github.com/FranciscoAlberto06
-- **LinkedIn:** ver enlace en la barra lateral
+- **LinkedIn:** www.linkedin.com/in/francisco-alberto-fernandez-alcantara
 
 <span class=""com"">// psst: abre la terminal de abajo y escribe 'help'</span>
 </code></pre>";
@@ -216,8 +232,9 @@ Técnico en Sistemas Microinformáticos y Redes (SMR)
 
     private bool TerminalOpen { get; set; } = false;
     private string TerminalInput { get; set; } = "";
-    private ElementReference terminalLogRef;
+  
 
+    /// Lista de líneas de la terminal, con HTML para resaltar comandos y salidas
     private readonly List<string> TerminalLog = new()
     {
         "franciscoalberto.dev terminal [v1.0]",
@@ -226,17 +243,24 @@ Técnico en Sistemas Microinformáticos y Redes (SMR)
 
     private void ToggleTerminal() => TerminalOpen = !TerminalOpen;
 
-    private void HandleTerminalKey(KeyboardEventArgs e)
+    /// Metodo que maneja la entrada de teclado en la terminal
+    private async Task HandleTerminalKey(KeyboardEventArgs e)
     {
+        // Solo procesamos la tecla Enter, ignoramos otras teclas
         if (e.Key != "Enter") return;
 
-        var cmd = TerminalInput.Trim();
+        // Guardamos el comando ingresado
+        string cmd = TerminalInput.Trim();
+        // Añadimos el comando al log de la terminal, con un prompt y resaltado de HTML
         TerminalLog.Add($"<span class=\"prompt-echo\">francisco@dev:~$</span> {System.Net.WebUtility.HtmlEncode(cmd)}");
-        RunCommand(cmd.ToLowerInvariant());
+        // Limpiamos la entrada de la terminal
         TerminalInput = "";
+        // Ejecutamos el comando ingresado
+        await RunCommand(cmd.ToLowerInvariant());
     }
 
-    private void RunCommand(string cmd)
+    /// Metodo que ejecuta un comando ingresado en la terminal
+    private async Task RunCommand(string cmd)
     {
         switch (cmd)
         {
@@ -248,13 +272,15 @@ Técnico en Sistemas Microinformáticos y Redes (SMR)
                 break;
             case "github":
                 TerminalLog.Add("abriendo github.com/FranciscoAlberto06 ↗");
-                OpenLink("https://github.com/FranciscoAlberto06");
+                await OpenLink("https://github.com/FranciscoAlberto06");
                 break;
             case "linkedin":
-                TerminalLog.Add("abriendo LinkedIn ↗ (actualiza el enlace en Home.razor.cs)");
+                TerminalLog.Add("abriendo LinkedIn ↗");
+                await OpenLink("https://www.linkedin.com/in/francisco-alberto-fernandez-alcantara");
                 break;
             case "email":
-                TerminalLog.Add("francisfdez591@gmail.com — copiado a la vista, no al portapapeles (todavía).");
+                await CopyEmail();
+                TerminalLog.Add("francisfdez591@gmail.com — copiado al portapapeles ✔");
                 break;
             case "cv":
                 OpenFile("perfil");
@@ -279,10 +305,19 @@ Técnico en Sistemas Microinformáticos y Redes (SMR)
         }
     }
 
-    private void OpenLink(string url)
+    private async Task OpenLink(string url)
     {
-        // Se abre realmente con JS interop — ver el snippet en Home.razor si quieres
-        // enlazarlo a window.open. Se deja como mejora sencilla para no depender de JS aquí.
+        await JS.InvokeVoidAsync("openUrl", url);
+    }
+
+    private async Task CopyEmail()
+    {
+        await JS.InvokeVoidAsync("copyToClipboard", "francisfdez591@gmail.com");
+        emailCopied = true;
+        StateHasChanged();
+        await Task.Delay(1600);
+        emailCopied = false;
+        StateHasChanged();
     }
     #endregion
 
