@@ -1,16 +1,47 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+    <meta name="google-site-verification" content="IVkQ2AsSelxexL2ixAhjQBuY4eTBBiz8n2U7-wU87ns" />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>franciscoalberto.dev — sobre-mi.cs</title>
-    <meta name="description" content="Portafolio de Francisco Alberto Fernández Alcántara, desarrollador .NET / C#" />
+    <title>Francisco Alberto Fernández Alcántara | Desarrollador .NET / C#</title>
+    <meta name="description" content="Portfolio de Francisco Alberto Fernández Alcántara, desarrollador .NET / C# especializado en ASP.NET Core, .NET MAUI y APIs REST." />
+    <meta name="author" content="Francisco Alberto Fernández Alcántara" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://franciscoalberto06.github.io/" />
+
+    <!-- Vista previa al compartir el enlace (LinkedIn, WhatsApp, etc.) -->
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="es_ES" />
+    <meta property="og:title" content="Francisco Alberto Fernández Alcántara | Desarrollador .NET / C#" />
+    <meta property="og:description" content="Portfolio con mis proyectos, habilidades y contacto." />
+    <meta property="og:url" content="https://franciscoalberto06.github.io/" />
+    <meta property="og:image" content="https://franciscoalberto06.github.io/img/avatar.jpg" />
+    <meta name="twitter:card" content="summary" />
+
+    <!-- Search Console: pega aquí la etiqueta google-site-verification cuando Google te la dé -->
+    <!-- Datos estructurados: une esta web, tu GitHub y tu LinkedIn como la misma persona -->
+    <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "Person",
+          "name": "Francisco Alberto Fernández Alcántara",
+          "jobTitle": "Desarrollador .NET / C#",
+          "url": "https://franciscoalberto06.github.io/",
+          "image": "https://franciscoalberto06.github.io/img/avatar.jpg",
+          "sameAs": [
+            "https://github.com/FranciscoAlberto06",
+            "https://www.linkedin.com/in/francisco-alberto-fernandez-alcantara"
+          ]
+        }
+    </script>
+
     <base href="/" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/app.css" />
-    <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+A8AAQUBAScY42YAAAAASUVORK5CYII=" />
+    <link rel="icon" type="image/png" sizes="96x96" href="favicon.png" />
 </head>
 
 <body>
@@ -24,6 +55,15 @@
         <div class="boot-status">cargando el entorno<span class="dots">...</span></div>
     </div>
 
+    <noscript>
+        <h1>Francisco Alberto Fernández Alcántara</h1>
+        <p>Desarrollador .NET / C#. Portfolio con proyectos, habilidades y contacto.</p>
+        <p>
+            <a href="https://github.com/FranciscoAlberto06">GitHub</a> ·
+            <a href="https://www.linkedin.com/in/francisco-alberto-fernandez-alcantara">LinkedIn</a>
+        </p>
+    </noscript>
+
     <div id="blazor-error-ui">
         Ha ocurrido un error inesperado.
         <a href="" class="reload">Recargar</a>
@@ -32,25 +72,25 @@
     <script src="js/site.js"></script>
     <script src="_framework/blazor.webassembly.js" autostart="false"></script>
     <script>
-      // ---- Duración mínima de la intro ----
-      // Cambia este número (en milisegundos) para que la intro dure más o menos.
-      // 2200 = 2.2 segundos mínimo, aunque la app cargue antes.
-      const MIN_INTRO_MS = 2200;
+              // ---- Duración mínima de la intro ----
+              // Cambia este número (en milisegundos) para que la intro dure más o menos.
+              // 2200 = 2.2 segundos mínimo, aunque la app cargue antes.
+              const MIN_INTRO_MS = 2200;
 
-      const startTime = Date.now();
+              const startTime = Date.now();
 
-      Blazor.start().then(function () {
-        const elapsed = Date.now() - startTime;
-        const remaining = Math.max(0, MIN_INTRO_MS - elapsed);
+              Blazor.start().then(function () {
+                const elapsed = Date.now() - startTime;
+                const remaining = Math.max(0, MIN_INTRO_MS - elapsed);
 
-        setTimeout(function () {
-          const overlay = document.getElementById('boot-overlay');
-          if (overlay) {
-            overlay.classList.add('boot-overlay-hide');
-            setTimeout(function () { overlay.remove(); }, 400); // tras el fundido
-          }
-        }, remaining);
-      });
+                setTimeout(function () {
+                  const overlay = document.getElementById('boot-overlay');
+                  if (overlay) {
+                    overlay.classList.add('boot-overlay-hide');
+                    setTimeout(function () { overlay.remove(); }, 400); // tras el fundido
+                  }
+                }, remaining);
+              });
     </script>
 </body>
 
