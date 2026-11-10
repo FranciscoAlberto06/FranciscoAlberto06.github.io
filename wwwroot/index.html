@@ -45,6 +45,7 @@
 </head>
 
 <body>
+    <h1 class="sr-only">Francisco Alberto Fernández Alcántara, desarrollador de software .NET / C#</h1>
     <div id="app"></div>
 
     <div id="boot-overlay" class="boot-screen">
@@ -56,7 +57,7 @@
     </div>
 
     <noscript>
-        <h1>Francisco Alberto Fernández Alcántara</h1>
+        <p><strong>Francisco Alberto Fernández Alcántara</strong></p>        
         <p>Desarrollador .NET / C#. Portfolio con proyectos, habilidades y contacto.</p>
         <p>
             <a href="https://github.com/FranciscoAlberto06">GitHub</a> ·
@@ -72,25 +73,25 @@
     <script src="js/site.js"></script>
     <script src="_framework/blazor.webassembly.js" autostart="false"></script>
     <script>
-              // ---- Duración mínima de la intro ----
-              // Cambia este número (en milisegundos) para que la intro dure más o menos.
-              // 2200 = 2.2 segundos mínimo, aunque la app cargue antes.
-              const MIN_INTRO_MS = 2200;
+                      // ---- Duración mínima de la intro ----
+                      // Cambia este número (en milisegundos) para que la intro dure más o menos.
+                      // 2200 = 2.2 segundos mínimo, aunque la app cargue antes.
+                      const MIN_INTRO_MS = 2200;
 
-              const startTime = Date.now();
+                      const startTime = Date.now();
 
-              Blazor.start().then(function () {
-                const elapsed = Date.now() - startTime;
-                const remaining = Math.max(0, MIN_INTRO_MS - elapsed);
+                      Blazor.start().then(function () {
+                        const elapsed = Date.now() - startTime;
+                        const remaining = Math.max(0, MIN_INTRO_MS - elapsed);
 
-                setTimeout(function () {
-                  const overlay = document.getElementById('boot-overlay');
-                  if (overlay) {
-                    overlay.classList.add('boot-overlay-hide');
-                    setTimeout(function () { overlay.remove(); }, 400); // tras el fundido
-                  }
-                }, remaining);
-              });
+                        setTimeout(function () {
+                          const overlay = document.getElementById('boot-overlay');
+                          if (overlay) {
+                            overlay.classList.add('boot-overlay-hide');
+                            setTimeout(function () { overlay.remove(); }, 400); // tras el fundido
+                          }
+                        }, remaining);
+                      });
     </script>
 </body>
 
