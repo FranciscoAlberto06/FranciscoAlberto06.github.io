@@ -189,7 +189,7 @@ public partial class Home : ComponentBase
     <span class=""str"">""API REST""</span>,
     <span class=""str"">""SignalR""</span>
   ],
-  <span class=""fn"">""herramientas""</span>: [<span class=""str"">""Visual Studio""</span>, <span class=""str"">""Git / GitHub"",<span class=""str"">""Azure""</span>, </span>, <span class=""str"">""MySQL Workbench""</span>, <span class=""str"">""SQL Server""</span>]
+  <span class=""fn"">""herramientas""</span>: [<span class=""str"">""Visual Studio""</span>, <span class=""str"">""Git / GitHub"",<span class=""str"">""Azure""</span></span>, <span class=""str"">""MySQL Workbench""</span>, <span class=""str"">""SQL Server""</span>]
 }}
 </code></pre>";
         return new MarkupString(html);
