@@ -45,6 +45,7 @@
                 <button type="button" class="footer-btn" title="Copiar email" @onclick="CopyEmail">
                     @(emailCopied ? "✓" : "@")
                 </button>
+                <button type="button" class="footer-btn" title="Ver y descargar mi CV" @onclick='() => OpenFile("cv")'>CV</button>
             </div>
         </aside>
 
@@ -67,8 +68,14 @@
                     case "perfil":
                         <text>@RenderPerfil()</text>
                         break;
+                    case "cv":
+                        <text>@RenderCv()</text>
+                        break;
                     case "frivgame":
                         <text>@RenderFrivgame()</text>
+                        break;
+                    case "trello":
+                        <text>@RenderTrello()</text>
                         break;
                     case "skills":
                         <text>@RenderSkills()</text>

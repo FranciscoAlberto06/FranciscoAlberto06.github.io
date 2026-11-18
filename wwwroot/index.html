@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Francisco Alberto Fernández Alcántara | Desarrollador .NET</title>
-    <meta name="description" content="Portfolio de Francisco Alberto Fernández Alcántara, desarrollador .NET / C# especializado en ASP.NET Core, .NET MAUI y APIs REST." />
+    <meta name="description" content="Portfolio de Francisco Alberto Fernández Alcántara, desarrollador de software especializado en C#, .NET, ASP.NET Core, .NET MAUI y APIs REST." />
     <meta name="author" content="Francisco Alberto Fernández Alcántara" />
     <meta name="robots" content="index, follow" />
     <link rel="canonical" href="https://franciscoalberto06.github.io/" />
@@ -19,14 +19,13 @@
     <meta property="og:image" content="https://franciscoalberto06.github.io/img/avatar.jpg" />
     <meta name="twitter:card" content="summary" />
 
-    <!-- Search Console: pega aquí la etiqueta google-site-verification cuando Google te la dé -->
     <!-- Datos estructurados: une esta web, tu GitHub y tu LinkedIn como la misma persona -->
     <script type="application/ld+json">
         {
           "@context": "https://schema.org",
           "@type": "Person",
           "name": "Francisco Alberto Fernández Alcántara",
-          "jobTitle": "Desarrollador .NET / C#",
+          "jobTitle": "Desarrollador de software (C# / .NET)",
           "url": "https://franciscoalberto06.github.io/",
           "image": "https://franciscoalberto06.github.io/img/avatar.jpg",
           "sameAs": [
@@ -41,7 +40,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/app.css" />
-    <link rel="icon" type="image/png" sizes="96x96" href="favicon.png" />
+    <link rel="icon" type="image/png" sizes="96x96" href="img/favicon.png" />
 </head>
 
 <body>
@@ -51,34 +50,36 @@
     <div id="boot-overlay" class="boot-screen" data-nosnippet >
         <img src="img/avatar.jpg" alt="Francisco Alberto Fernández Alcántara" class="boot-avatar" />
         <div class="boot-name">Francisco Alberto Fernández Alcántara</div>
-        <div class="boot-role">Desarrollador .NET / C#</div>
+        <div class="boot-role">Desarrollador de software | C# · .NET</div>
         <div class="boot-progress"><span class="boot-progress-fill"></span></div>
-        <div class="boot-status">cargando el entorno<span class="dots">...</span></div>
+        <div class="boot-status" data-nosnippet></div>
     </div>
 
     <noscript>
-        <p><strong>Francisco Alberto Fernández Alcántara</strong>, desarrollador de software .NET / C#.</p>
+        <p><strong>Francisco Alberto Fernández Alcántara</strong>, desarrollador de software (C# · .NET).</p>
         <p>Técnico Superior en Desarrollo de Aplicaciones Multiplataforma (2024 – 2026), especializado en C# y .NET: APIs REST con ASP.NET Core, aplicaciones multiplataforma con .NET MAUI y bases de datos SQL.</p>
         <h2>Proyecto destacado: FrivGame</h2>
         <p>App de minijuegos para Android y escritorio, con modo online y offline, cuentas de usuario, niveles, logros y ranking en tiempo real con SignalR. API REST en ASP.NET Core desplegada en Railway, MySQL en Aiven y cliente en .NET MAUI.</p>
         <h2>Habilidades</h2>
-        <p>C#, ASP.NET Core, Web API, API REST, SignalR, .NET MAUI, Blazor, MySQL, SQL Server, SQLite, Git, GitHub, Visual Studio.</p>
+        <p>C#, Python, Java, JavaScript, SQL, ASP.NET Core, Web API, API REST, SignalR, .NET MAUI, Blazor, MySQL, SQL Server, SQLite, Git, GitHub, Visual Studio.</p>
         <h2>Contacto</h2>
         <p>
             <a href="https://github.com/FranciscoAlberto06">GitHub</a> ·
             <a href="https://www.linkedin.com/in/francisco-alberto-fernandez-alcantara">LinkedIn</a> ·
-            francisfdez591@gmail.com
+            francisfdez591@gmail.com ·
+            <a href="cv/CV_Francisco_Alberto_Fernandez_Alcantara.pdf">Currículum (PDF)</a>
         </p>
     </noscript>
 
-    <div id="blazor-error-ui" data-nosnippet >
-        Ha ocurrido un error inesperado.
-        <a href="" class="reload">Recargar</a>
-        <a class="dismiss">🗙</a>
-    </div>
+    <div id="blazor-error-ui" data-nosnippet></div>
     <script src="js/site.js"></script>
     <script src="_framework/blazor.webassembly.js" autostart="false"></script>
     <script>
+                      // Textos solo para personas: se insertan con JavaScript, así quien lee el HTML
+                      // sin ejecutar scripts no ve "cargando..." ni el aviso de error.
+                      document.querySelector('.boot-status').innerHTML = 'cargando el entorno<span class="dots">...</span>';
+                      document.getElementById('blazor-error-ui').innerHTML = 'Ha ocurrido un error inesperado. <a href="" class="reload">Recargar</a> <a class="dismiss">🗙</a>';
+
                       // ---- Duración mínima de la intro ----
                       // Cambia este número (en milisegundos) para que la intro dure más o menos.
                       // 2200 = 2.2 segundos mínimo, aunque la app cargue antes.

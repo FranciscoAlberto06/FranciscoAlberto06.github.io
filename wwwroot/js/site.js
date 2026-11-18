@@ -2,10 +2,10 @@
 window.copyToClipboard = function (text) {
     // Si el navegador soporta la API de portapapeles, la usa
     if (navigator.clipboard && navigator.clipboard.writeText) {
-        
+
         return navigator.clipboard.writeText(text);
     }
-// Si no, creamos un elemento de texto temporal para copiar el contenido.
+    // Si no, creamos un elemento de texto temporal para copiar el contenido.
     const el = document.createElement('textarea');
     el.value = text;
     el.style.position = 'fixed';
@@ -18,6 +18,17 @@ window.copyToClipboard = function (text) {
 
 // Abre una URL en una pestaña nueva.
 window.openUrl = function (url) {
-    
+
     window.open(url, '_blank', 'noopener');
+};
+
+// Descarga un archivo del propio sitio (por ejemplo el CV en PDF) sin abrir otra pestaña.
+window.downloadFile = function (url, name) {
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = name || '';
+    a.style.display = 'none';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
 };

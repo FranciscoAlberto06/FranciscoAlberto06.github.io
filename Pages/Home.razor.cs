@@ -12,11 +12,17 @@ public partial class Home : ComponentBase
     [Inject] private IJSRuntime JS { get; set; } = default!;
     private bool emailCopied;
 
+    // Ruta y nombre del CV en PDF (está en wwwroot/cv/)
+    private const string CvUrl = "cv/CV_Francisco_Alberto_Fernandez_Alcantara.pdf";
+    private const string CvFileName = "CV_Francisco_Alberto_Fernandez_Alcantara.pdf";
+
     #region EXPLORADOR DE ARCHIVOS
     private readonly List<FileEntry> Files = new()
     {
         new("perfil",    "sobre-mi.cs",    "🗎", "PERFIL"),
+        new("cv",        "cv.pdf",         "🗎", "CV"),
         new("frivgame",  "frivgame.cs",    "🗎", "PROYECTOS"),
+        new("trello",    "trello-blazor.cs", "🗎", "PROYECTOS"),
         new("skills",    "skills.json",    "🗎", "SKILLS"),
         new("formacion", "formacion.md",   "🗎", "FORMACION"),
         new("contacto",  "contacto.md",    "🗎", "CONTACTO"),
@@ -26,7 +32,7 @@ public partial class Home : ComponentBase
 
     private List<string> Folders => Files.Select(f => f.Folder).Distinct().ToList();
 
-    private readonly HashSet<string> openFolders = new() { "PERFIL", "PROYECTOS", "SKILLS", "FORMACION", "CONTACTO" };
+    private readonly HashSet<string> openFolders = new() { "PERFIL", "CV", "PROYECTOS", "SKILLS", "FORMACION", "CONTACTO" };
 
     /// <summary>
     /// Metodo que comprueba si una carpeta esta abierta o cerrada en el explorador de archivos
@@ -93,7 +99,9 @@ public partial class Home : ComponentBase
     private int StatusLine => ActiveFile switch
     {
         "perfil" => 12,
+        "cv" => 1,
         "frivgame" => 28,
+        "trello" => 14,
         "skills" => 19,
         "formacion" => 15,
         "contacto" => 8,
@@ -110,22 +118,25 @@ public partial class Home : ComponentBase
         string html = $@"
 <pre><code>
 <span class=""com"">// sobre-mi.cs</span>
+<span class=""com"">// CV: <a href=""{CvUrl}"" download=""{CvFileName}"">descargar PDF</a> (o abre la pestaña cv.pdf)</span>
 
 <span class=""kw"">public class</span> <span class=""typ"">Perfil</span>
 {{
     <span class=""kw"">public string</span> Nombre = <span class=""str"">""Francisco Alberto Fernández Alcántara""</span>;
-    <span class=""kw"">public string</span> Rol    = <span class=""str"">""Desarrollador .NET / C#""</span>;
+    <span class=""kw"">public string</span> Rol    = <span class=""str"">""Desarrollador de software | C# · .NET""</span>;
 
     <span class=""kw"">public string</span> Resumen = <span class=""str"">@""Técnico Superior en Desarrollo de Aplicaciones
-        Multiplataforma (DAM), especializado en desarrollo con C# y .NET.
-        Experiencia en el desarrollo de APIs REST con ASP.NET Core,
-        aplicaciones multiplataforma con .NET MAUI y gestión de bases
-        de datos SQL. Familiarizado con Git, despliegue de aplicaciones
-        en la nube y metodologías ágiles. Orientado al desarrollo
-        backend y al aprendizaje continuo.""</span>;
+        Multiplataforma, con formación previa en Sistemas
+        Microinformáticos y Redes. Perfil técnico, responsable
+        y con facilidad para aprender nuevas herramientas y
+        procesos. Interesado en incorporarme a cualquier
+        entorno, aprender nuevos conocimientos y desarrollar
+        habilidades prácticas dentro de la empresa, aportando
+        también mi formación tecnológica y capacidad de
+        resolución de problemas.""</span>;
 
     <span class=""kw"">public string</span>[] Idiomas = {{ <span class=""str"">""Español (nativo)""</span>, <span class=""str"">""Inglés (A2)""</span> }};
-    <span class=""kw"">public string</span> Extra = <span class=""str"">""Permiso de conducir B""</span>;
+    <span class=""kw"">public string</span> Extra = <span class=""str"">""Permiso de conducir B · Vehículo propio""</span>;
 }}
 </code></pre>";
         return new MarkupString(html);
@@ -136,39 +147,35 @@ public partial class Home : ComponentBase
         string html = $@"
 <pre><code>
 <span class=""com"">// frivgame.cs — Proyecto Final de Grado</span>
-<span class=""com"">// Repositorio: github.com/FranciscoAlberto06</span>
+<span class=""com"">// Repositorio: <a href=""https://github.com/FranciscoAlberto06/FrivGame_Minijuegos_FAFA_APP"" target=""_blank"" rel=""noopener"">github.com/FranciscoAlberto06/FrivGame_Minijuegos_FAFA_APP</a></span>
 <span class=""com"">//</span>
-<span class=""com"">// Una plataforma de minijuegos pensada para jugarse en cualquier sitio:</span>
-<span class=""com"">// mismo usuario, mismo progreso, en Android o en escritorio, con o sin conexión.</span>
+<span class=""com"">// App de minijuegos multiplataforma (Android y escritorio)</span>
+<span class=""com"">// con funcionamiento online y offline.</span>
 
 <span class=""kw"">public class</span> <span class=""typ"">FrivGame</span> : <span class=""typ"">AplicacionMultiplataforma</span>
 {{
-    <span class=""com"">// ── Autenticación y progreso ─────────────────────────</span>
-    <span class=""com"">// Registro y login de usuarios. Cada cuenta guarda experiencia,</span>
-    <span class=""com"">// niveles desbloqueados y logros, sincronizados entre dispositivos.</span>
+    <span class=""com"">// ── Cuentas y progreso ───────────────────────────────</span>
+    <span class=""com"">// Registro y autenticación de usuarios, con perfiles,</span>
+    <span class=""com"">// experiencia, niveles y sistema de logros.</span>
     <span class=""kw"">void</span> <span class=""fn"">Autenticacion</span>()
 
     <span class=""com"">// ── Ranking en tiempo real ───────────────────────────</span>
-    <span class=""com"">// Las puntuaciones se emiten por SignalR: cuando alguien bate</span>
-    <span class=""com"">// un récord, el resto de jugadores conectados lo ve al instante,</span>
-    <span class=""com"">// sin recargar ni hacer polling.</span>
+    <span class=""com"">// Las puntuaciones se actualizan al instante mediante SignalR.</span>
     <span class=""kw"">void</span> <span class=""fn"">RankingEnTiempoReal</span>()
 
-    <span class=""com"">// ── API y persistencia ───────────────────────────────</span>
-    <span class=""com"">// Backend en ASP.NET Core + C#, desplegado en Railway.</span>
-    <span class=""com"">// Datos en MySQL sobre Aiven, expuestos como API REST.</span>
+    <span class=""com"">// ── API y datos ──────────────────────────────────────</span>
+    <span class=""com"">// API REST con ASP.NET Core y C#, desplegada en Railway.</span>
+    <span class=""com"">// Gestión de datos con MySQL (Aiven) y SQLite.</span>
     <span class=""kw"">void</span> <span class=""fn"">Api</span>()
 
     <span class=""com"">// ── Cliente multiplataforma ──────────────────────────</span>
-    <span class=""com"">// Una sola base de código en .NET MAUI corre en Android y</span>
-    <span class=""com"">// Escritorio. Los minijuegos funcionan offline y sincronizan</span>
-    <span class=""com"">// el progreso en cuanto vuelve la conexión.</span>
+    <span class=""com"">// .NET MAUI y C#, trabajando con la API REST</span>
+    <span class=""com"">// y datos en formato JSON.</span>
     <span class=""kw"">void</span> <span class=""fn"">ClienteMultiplataforma</span>()
 
-    <span class=""com"">// ── Lo que aprendí ────────────────────────────────────</span>
-    <span class=""com"">// Mi primer proyecto diseñando la arquitectura completa desde</span>
-    <span class=""com"">// cero: cliente, API y base de datos funcionando juntos en</span>
-    <span class=""com"">// producción real, no solo en local.</span>
+    <span class=""com"">// ── Integración ──────────────────────────────────────</span>
+    <span class=""com"">// Cliente, API y base de datos desplegados en la nube</span>
+    <span class=""com"">// como una solución funcional y conectada.</span>
 }}
 </code></pre>";
         return new MarkupString(html);
@@ -179,7 +186,7 @@ public partial class Home : ComponentBase
         string html = $@"
 <pre><code>
 {{
-  <span class=""fn"">""lenguajes""</span>: [<span class=""str"">""C#""</span>, <span class=""str"">""Python""</span>, <span class=""str"">""Java""</span>],
+  <span class=""fn"">""lenguajes""</span>: [<span class=""str"">""C#""</span>, <span class=""str"">""Python""</span>, <span class=""str"">""Java""</span>, <span class=""str"">""JavaScript""</span>, <span class=""str"">""SQL""</span>],
   <span class=""fn"">""basesDeDatos""</span>: [<span class=""str"">""MySQL""</span>, <span class=""str"">""SQL Server""</span>, <span class=""str"">""SQLite""</span>],
   <span class=""fn"">""frameworks""</span>: [
     <span class=""str"">""ASP.NET Core""</span>,
@@ -189,7 +196,7 @@ public partial class Home : ComponentBase
     <span class=""str"">""API REST""</span>,
     <span class=""str"">""SignalR""</span>
   ],
-  <span class=""fn"">""herramientas""</span>: [<span class=""str"">""Visual Studio""</span>, <span class=""str"">""Git / GitHub"",<span class=""str"">""Azure""</span></span>, <span class=""str"">""MySQL Workbench""</span>, <span class=""str"">""SQL Server""</span>]
+  <span class=""fn"">""herramientas""</span>: [<span class=""str"">""Visual Studio""</span>, <span class=""str"">""Git / GitHub""</span>, <span class=""str"">""Azure""</span>, <span class=""str"">""MySQL Workbench""</span>]
 }}
 </code></pre>";
         return new MarkupString(html);
@@ -218,10 +225,43 @@ Técnico en Sistemas Microinformáticos y Redes (SMR)
 
 - **Email:** francisfdez591@gmail.com
 - **Teléfono:** 635 33 73 02
-- **GitHub:** github.com/FranciscoAlberto06
-- **LinkedIn:** www.linkedin.com/in/francisco-alberto-fernandez-alcantara
+- **GitHub:** <a href=""https://github.com/FranciscoAlberto06"" target=""_blank"" rel=""noopener"">github.com/FranciscoAlberto06</a>
+- **LinkedIn:** <a href=""https://www.linkedin.com/in/francisco-alberto-fernandez-alcantara"" target=""_blank"" rel=""noopener"">linkedin.com/in/francisco-alberto-fernandez-alcantara</a>
+- **CV:** <a href=""{CvUrl}"" download=""{CvFileName}"">descargar PDF</a>
 
 <span class=""com"">// psst: abre la terminal de abajo y escribe 'help'</span>
+</code></pre>";
+        return new MarkupString(html);
+    }
+
+    /// <summary>
+    /// Pestaña "cv.pdf": vista previa del currículum (imagen) con botones para descargarlo o abrirlo.
+    /// </summary>
+    private MarkupString RenderCv()
+    {
+        string html = $@"
+<div class=""cv-view"">
+    <div class=""cv-toolbar"">
+        <a class=""cv-btn primary"" href=""{CvUrl}"" download=""{CvFileName}"">↓ Descargar PDF</a>
+        <a class=""cv-btn"" href=""{CvUrl}"" target=""_blank"" rel=""noopener"">Abrir en pestaña nueva</a>
+        <span class=""cv-meta"">PDF · 1 página · 141 KB</span>
+    </div>
+    <img class=""cv-img"" src=""cv/cv-preview.jpg"" width=""1241"" height=""1755"" alt=""Currículum de Francisco Alberto Fernández Alcántara, desarrollador de software C# .NET"" />
+</div>";
+        return new MarkupString(html);
+    }
+
+    private MarkupString RenderTrello()
+    {
+        string html = $@"
+<pre><code>
+<span class=""com"">// trello-blazor.cs — Proyecto personal</span>
+<span class=""com"">// Repositorio: <a href=""https://github.com/FranciscoAlberto06/proyectoTrelloBlazor"" target=""_blank"" rel=""noopener"">github.com/FranciscoAlberto06/proyectoTrelloBlazor</a></span>
+
+<span class=""kw"">public class</span> <span class=""typ"">TrelloBlazor</span>
+{{
+    <span class=""com"">// Aplicación web de gestión de tareas hecha con Blazor.</span>
+}}
 </code></pre>";
         return new MarkupString(html);
     }
@@ -232,7 +272,7 @@ Técnico en Sistemas Microinformáticos y Redes (SMR)
 
     private bool TerminalOpen { get; set; } = false;
     private string TerminalInput { get; set; } = "";
-  
+
 
     /// Lista de líneas de la terminal, con HTML para resaltar comandos y salidas
     private readonly List<string> TerminalLog = new()
@@ -265,10 +305,10 @@ Técnico en Sistemas Microinformáticos y Redes (SMR)
         switch (cmd)
         {
             case "help":
-                TerminalLog.Add("comandos: help · whoami · github · linkedin · email · cv · skills · clear");
+                TerminalLog.Add("comandos: help · whoami · cv · descargar · skills · github · linkedin · email · clear");
                 break;
             case "whoami":
-                TerminalLog.Add("Francisco Alberto Fernández Alcántara — Desarrollador .NET / C#");
+                TerminalLog.Add("Francisco Alberto Fernández Alcántara — Desarrollador de software | C# · .NET");
                 break;
             case "github":
                 TerminalLog.Add("abriendo github.com/FranciscoAlberto06 ↗");
@@ -283,8 +323,12 @@ Técnico en Sistemas Microinformáticos y Redes (SMR)
                 TerminalLog.Add("francisfdez591@gmail.com — copiado al portapapeles ✔");
                 break;
             case "cv":
-                OpenFile("perfil");
-                TerminalLog.Add("abriendo sobre-mi.cs...");
+                OpenFile("cv");
+                TerminalLog.Add("abriendo cv.pdf... (escribe 'descargar' para bajarlo)");
+                break;
+            case "descargar":
+                TerminalLog.Add($"descargando {CvFileName} ↓");
+                await JS.InvokeVoidAsync("downloadFile", CvUrl, CvFileName);
                 break;
             case "skills":
                 OpenFile("skills");
@@ -292,7 +336,9 @@ Técnico en Sistemas Microinformáticos y Redes (SMR)
                 break;
             case "sudo hire me":
                 TerminalLog.Add("[sudo] password for recruiter: ****");
-                TerminalLog.Add("permiso concedido. contacto en camino ✔");
+                TerminalLog.Add("permiso concedido ✔");
+                await CopyEmail();
+                TerminalLog.Add("francisfdez591@gmail.com copiado al portapapeles. Te espero.");
                 break;
             case "clear":
                 TerminalLog.Clear();
